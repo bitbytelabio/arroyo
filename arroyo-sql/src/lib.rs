@@ -9,7 +9,8 @@ use arroyo_datastream::Program;
 use arroyo_types::formats::{Format, JsonFormat};
 use datafusion::physical_plan::functions::make_scalar_function;
 
-mod expressions;
+pub(crate) mod code_gen;
+pub mod expressions;
 pub mod external;
 pub mod json_schema;
 mod operators;
@@ -36,6 +37,7 @@ use plan_graph::{get_program, PlanGraph};
 use schemas::window_arrow_struct;
 use tables::{schema_defs, ConnectorTable, Insert, Table};
 
+use crate::code_gen::ValuePointerContext;
 use crate::types::{StructDef, StructField, TypeDef};
 use quote::ToTokens;
 use std::time::{Duration, SystemTime};
@@ -507,7 +509,7 @@ pub fn generate_test_code(
     struct_tokens: &syn::Expr,
     result_expression: &syn::Expr,
 ) -> syn::ItemFn {
-    let syn_expr = generating_expression.to_syn_expression();
+    let syn_expr = generating_expression.generate(&ValuePointerContext::new());
     let function_name: syn::Ident =
         parse_str(&format!("generated_test_{}", function_suffix)).unwrap();
     parse_quote!(
