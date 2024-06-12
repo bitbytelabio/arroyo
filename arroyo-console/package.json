@@ -41,7 +41,7 @@
     "framer-motion": "^7.10.3",
     "lodash": "^4.17.21",
     "metrics-graphics": "3.0.0-beta1",
-    "monaco-editor": "^0.34.1",
+    "monaco-editor": "^0.41.0",
     "monaco-sql-languages": "^0.9.5",
     "openapi-fetch": "^0.6.1",
     "openapi-typescript": "^6.2.8",
